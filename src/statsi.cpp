@@ -94,7 +94,7 @@ float calculateCorrelation(vector<float>& col1_values,
     sum2 += pow((col1_values[i] - mean1), 2);
     sum3 += pow((col2_values[i] - mean2), 2);
   };
-  return ((sum1) / (sqrt(sum2 * sum3)));
+  return ((sum1) / float((sqrt(sum2 * sum3))));
 }
 
 tuple<float, float> calculateRegression(vector<float>& values) {
