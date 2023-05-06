@@ -31,15 +31,15 @@ float calculateMedian(vector<float> values) {
   return median;
 };
 
-float calculateSum(vector<float>& values) {
+double calculateSum(vector<float>& values) {
   // We declare a variable to store the sum of values
-  float sum;
+  double sum = 0;
 
   // Using a for loop...
-  for (int n = 0; n < values.size(); n++) {
+  for (float value:values) {
     // We iterate through all the values of values
     // and then incrementing sum by that value
-    sum += values[n];
+    sum += value;
   }
 
   // Finally we return sum
@@ -51,7 +51,8 @@ float calculateMean(vector<float>& values) {
   // That we wrote to calculate the sum of a list of values
   // We then divide it by the number of values
   // We convert the number of values to ensure a precise value
-  return calculateSum(values) / float(values.size());
+  float n = values.size();
+  return (calculateSum(values) / n);
 };
 
 float calculateVariance(vector<float>& values) {
@@ -84,17 +85,36 @@ float calculateStandardDeviation(vector<float>& values) {
 
 float calculateCorrelation(vector<float>& col1_values,
                            vector<float>& col2_values) {
-  float sum1;
-  float sum2;
-  float sum3;
-  float mean1 = calculateMean(col1_values);
-  float mean2 = calculateMean(col2_values);
+  // float sum1;
+  // float sum2;
+  // float sum3;
+  // float mean1 = calculateMean(col1_values);
+  // float mean2 = calculateMean(col2_values);
+  // for (int i = 0; i < col1_values.size(); i++) {
+  //   sum1 += ((col1_values[i] - mean1) * (col2_values[i] - mean2));
+  //   sum2 += pow((col1_values[i] - mean1), 2);
+  //   sum3 += pow((col2_values[i] - mean2), 2);
+  // };
+
+  double sum1 = 0;
+  double sum2 = 0;
+  double sum3 = 0;
+  double mean1 = calculateMean(col1_values);
+  double mean2 = calculateMean(col2_values);
+  // return mean2;
   for (int i = 0; i < col1_values.size(); i++) {
-    sum1 += ((col1_values[i] - mean1) * (col2_values[i] - mean2));
-    sum2 += pow((col1_values[i] - mean1), 2);
-    sum3 += pow((col2_values[i] - mean2), 2);
-  };
-  return ((sum1) / float((sqrt(sum2 * sum3))));
+    float x = col1_values[i];
+    float y = col2_values[i];
+    sum1 += (x - mean1) * (y - mean2);
+    // double value = x - mean1;
+    sum2 += pow((x - mean1), 2);
+    sum3 += pow((y - mean2), 2);
+  }
+
+// return mean2;
+  return (sum1 / (sqrt(sum2) * sqrt(sum3)));
+
+  // return ((sum1) / (float(sqrt(sum2)) * float (sqrt(sum3))));
 }
 
 tuple<float, float> calculateRegression(vector<float>& values) {
@@ -140,8 +160,11 @@ float getMin(vector<float>& values) {
 }
 
 bool isPrime(int number) {
-  // Using a for loop, we will iterate through all the numbers from 2 till the square root of the number + 1
-  // We start at two since that is the smallest prime factor
+  // Using a for loop, we will iterate through all the numbers from 2 till the
+  // square root of the number + 1 We start at two since that is the smallest
+  // prime factor
+  if (number == 0 || number == 1) return false;
+  if (number == 2 || number == 3) return true;
   for (int x = 2; x < sqrt(number) + 1; x++) {
     // If any number in that range divides the number we are checking
     if (number % x == 0) {

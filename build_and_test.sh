@@ -6,4 +6,4 @@ echo "
 Build Sucessfully!
 Running tests:
 "
-ctest;
+ctest $@;

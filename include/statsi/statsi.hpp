@@ -7,7 +7,7 @@
 
 using namespace std;
 float calculateMedian(vector<float> values);
-float calculateSum(vector<float>& values);
+double calculateSum(vector<float>& values);
 float calculateMean(vector<float>& values);
 
 float calculateVariance(vector<float>& values);
