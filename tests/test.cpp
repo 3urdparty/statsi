@@ -13,10 +13,13 @@ TEST(UnitTest, isPrime) {
   EXPECT_EQ(true, isPrime(101));
 }
 
-TEST(UnitTest, hey) {
-  vector<float> values_x = {1,4,10, 23, 43};
-  vector<float> values_y = {10,12,11, 5, 20};
+TEST(UnitTest, correlation) {
+  vector<float> values_x = {1, 4, 10, 23, 43};
+  vector<float> values_y = {10, 12, 11, 5, 20};
 
   // float corr = 0.5463;
-  ASSERT_NEAR(0.5463f, calculateCorrelation (values_x, values_y), 0.0001);
+  ASSERT_NEAR(0.5463f, calculateCorrelation(values_x, values_y), 0.0001);
+  ASSERT_NEAR(10.30, get<1>(calculateRegression(values_x)), 0.0001);
+  ASSERT_NEAR(7.700 , get<0>(calculateRegression(values_y)), 0.0001);
+  ASSERT_NEAR(1.300 , get<1>(calculateRegression(values_y)), 0.0001);
 }

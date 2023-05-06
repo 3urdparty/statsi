@@ -36,7 +36,7 @@ double calculateSum(vector<float>& values) {
   double sum = 0;
 
   // Using a for loop...
-  for (float value:values) {
+  for (float value : values) {
     // We iterate through all the values of values
     // and then incrementing sum by that value
     sum += value;
@@ -111,30 +111,39 @@ float calculateCorrelation(vector<float>& col1_values,
     sum3 += pow((y - mean2), 2);
   }
 
-// return mean2;
+  // return mean2;
   return (sum1 / (sqrt(sum2) * sqrt(sum3)));
 
   // return ((sum1) / (float(sqrt(sum2)) * float (sqrt(sum3))));
 }
 
-tuple<float, float> calculateRegression(vector<float>& values) {
+tuple<double, double> calculateRegression(vector<float>& values) {
   vector<float> indices;
-  for (int x = 0; x < values.size(); x++) {
+  for (int x = 1; x <= values.size(); x++) {
     indices.push_back(x);
   };
+  int n = values.size();
+  double sumxy = 0;
+  double sumx = 0;
+  double sumy = 0;
+  double sumx2 = 0;
+  double sumy2 = 0;
 
-  float r = calculateCorrelation(indices, values);
-  float stdx = calculateStandardDeviation(indices);
-  float stdy = calculateStandardDeviation(values);
+  for (int i = 0; i < n; i++) {
+    float x = indices[i];
+    float y = values[i];
 
-  float b = r * (stdx / stdy);
-
-  float meanx = calculateMean(indices);
-  float meany = calculateMean(values);
-  float yIntercept = meany - b * (meanx);
-
-  return tuple(yIntercept, b);
+    sumxy += x * y;
+    sumx += x;
+    sumy += y;
+    sumx2 += x * x;
+    sumy2 += y * y;
+  }
+  double b = ((n * sumxy) - (sumx * sumy)) / ((n * sumx2) - pow(sumx, 2));
+  double yintercept = (sumy - b * sumx) / n;
+  return tuple(yintercept, b);
 };
+
 float getMax(vector<float>& values) {
   int index;
   float maxVal = values[0];
