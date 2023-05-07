@@ -85,71 +85,96 @@ float calculateStandardDeviation(vector<float>& values) {
 
 float calculateCorrelation(vector<float>& col1_values,
                            vector<float>& col2_values) {
-  // float sum1;
-  // float sum2;
-  // float sum3;
-  // float mean1 = calculateMean(col1_values);
-  // float mean2 = calculateMean(col2_values);
-  // for (int i = 0; i < col1_values.size(); i++) {
-  //   sum1 += ((col1_values[i] - mean1) * (col2_values[i] - mean2));
-  //   sum2 += pow((col1_values[i] - mean1), 2);
-  //   sum3 += pow((col2_values[i] - mean2), 2);
-  // };
-
+  // we initiate 3 values to hold the sums
   double sum1 = 0;
   double sum2 = 0;
   double sum3 = 0;
+
+  // we get the mean for the values of column 1
   double mean1 = calculateMean(col1_values);
+  // we get the mean for the values of column 2
   double mean2 = calculateMean(col2_values);
-  // return mean2;
+
+  // we iterate through every x,y pair of values in column 1 ad column 2
   for (int i = 0; i < col1_values.size(); i++) {
+    // we get x
     float x = col1_values[i];
+    // we get y
     float y = col2_values[i];
+
+    // we add to the sum1 the result of (x - mean_x)(y - mean_y)
     sum1 += (x - mean1) * (y - mean2);
-    // double value = x - mean1;
+    // add the value of (x - mean_x)^2 to sum2
     sum2 += pow((x - mean1), 2);
+    // add the value of (y - mean_y)^2 to sum3
     sum3 += pow((y - mean2), 2);
   }
 
   // return mean2;
   return (sum1 / (sqrt(sum2) * sqrt(sum3)));
-
-  // return ((sum1) / (float(sqrt(sum2)) * float (sqrt(sum3))));
 }
 
 tuple<double, double> calculateRegression(vector<float>& values) {
+  // vector of values to store indices
   vector<float> indices;
+
+  // we populate the vector with indices
   for (int x = 1; x <= values.size(); x++) {
     indices.push_back(x);
   };
+
+  // we get the value for n, or the number of values
   int n = values.size();
+
+  // sum of xy
   double sumxy = 0;
+  // sum of x
   double sumx = 0;
+  // sum of y
   double sumy = 0;
+  // sum of x^2
   double sumx2 = 0;
+  // sum of y^2
   double sumy2 = 0;
 
+  // fior every value in values
   for (int i = 0; i < n; i++) {
+    // we get the index
     float x = indices[i];
+    // we get the value
     float y = values[i];
 
+    // we add the result of x * y for each pair to sum x y
     sumxy += x * y;
+    // we add each value of x together
     sumx += x;
+    // we add each value of y together
     sumy += y;
+    // we add the values of x ^ 2 together
     sumx2 += x * x;
+    // we add the values of y ^ 2 together
     sumy2 += y * y;
   }
+
+  // we calculate the value for b from the formula
   double b = ((n * sumxy) - (sumx * sumy)) / ((n * sumx2) - pow(sumx, 2));
+  // we calculate the value for the intercept
   double yintercept = (sumy - b * sumx) / n;
-  return tuple(yintercept, b);
+
+  // returnt the tuple containing the yintercept and the b value
+  return {yintercept, b};
 };
 
 float getMax(vector<float>& values) {
-  int index;
+  // we declared a variable that holds the max value and initialised it to the
+  // first value
   float maxVal = values[0];
+  // for every value in values
   for (int x = 0; x < values.size() - 1; x++) {
+    // if the max value of the pair of the current value and the next value is
+    // bigger than the current maxVal
     if (max(values[x], values[x + 1]) > maxVal) {
-      index = x;
+      // then we change maxVal
       maxVal = max(values[x], values[x + 1]);
     }
   };
@@ -157,11 +182,15 @@ float getMax(vector<float>& values) {
 }
 
 float getMin(vector<float>& values) {
-  int index;
+  // we declared a variable that holds the min value and initialised it to the
+  // first value
   float minVal = values[0];
+  // for every value in values
   for (int x = 0; x < values.size() - 1; x++) {
+    // if the min value of the pair of the current value and the next value is
+    // bigger than the current minVal
     if (min(values[x], values[x + 1]) < minVal) {
-      index = x;
+      // then we change minVal
       minVal = min(values[x], values[x + 1]);
     }
   };
@@ -169,11 +198,13 @@ float getMin(vector<float>& values) {
 }
 
 bool isPrime(int number) {
+  // if the number is 0 or 1, return false
+  if (number == 0 || number == 1) return false;
+  // if the value is 2 or 3, then return true
+  if (number == 2 || number == 3) return true;
   // Using a for loop, we will iterate through all the numbers from 2 till the
   // square root of the number + 1 We start at two since that is the smallest
   // prime factor
-  if (number == 0 || number == 1) return false;
-  if (number == 2 || number == 3) return true;
   for (int x = 2; x < sqrt(number) + 1; x++) {
     // If any number in that range divides the number we are checking
     if (number % x == 0) {
